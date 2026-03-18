@@ -2,7 +2,7 @@
 
 if [ "$(whoami)" != "root" ]; then
         echo "Ejecutando como administrador..."
-        exec sudo curl -fsS https://raw.githubusercontent.com/cl4ss1fi3d/m4pper/refs/heads/main/installer.sh | sh
+        exec sudo "$0" "$@"
 fi
 
 apt install nmap
