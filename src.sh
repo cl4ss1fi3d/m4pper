@@ -23,6 +23,7 @@ check_install() {
 }
 
 full_scan() {
+    read -p "IP [Default: 192.168.1.0/24]: " ip
     read -p "Guardar en archivo? [Y/n]: " save
     if [[ "${save,,}" == "y" || "$save" == "" ]]; then
         echo ok
