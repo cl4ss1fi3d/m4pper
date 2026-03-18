@@ -99,6 +99,7 @@ port_scan() {
     if [[ "${save,,}" == "y" || -z "$save" ]]; then
         read -p "Nombre del archivo [Default: result]: " file
         if [ -z "$file" ]; then
+            file="result"
             nmap -vv -sV -O -p $ports $ip -oG result.gnmap
         else
             nmap -vv -sV -O -p $ports $ip -oG "$file".gnmap
@@ -123,8 +124,12 @@ port_scan() {
 }
 
 vuln_scan() {
-    echo vuln scan
-    #if [[ ! $ip =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+    read -p "IP [Default: 192.168.1.0/24]: " ip
+    if [ -z "$ip" ]; then
+        ip="192.168.1.0/24"
+    elif [[ ! $ip =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+        menu "error"
+    fi
 }
 
 menu() {
