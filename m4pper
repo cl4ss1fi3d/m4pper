@@ -1,5 +1,5 @@
 #!/bin/bash
-source src.sh
+source m4pper-src
 check_root
 
 apt upgrade nmap
