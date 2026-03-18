@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ "$(whoami)" != "root" ]; then
-        echo "Ejecutando como administrador..."
-        exec sudo "$0" "$@"
-fi
+#if [ "$(whoami)" != "root" ]; then
+ #       echo "Ejecutando como administrador..."
+  #      exec sudo "$0" "$@"
+#fi
 
 apt install nmap
 apt install figlet
