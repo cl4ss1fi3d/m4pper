@@ -120,16 +120,44 @@ port_scan() {
             clear
             exit 0
         fi
+    nmap -vv -sV -O -p $ports $ip
+
     fi
 }
 
 vuln_scan() {
-    read -p "IP [Default: 192.168.1.0/24]: " ip
-    if [ -z "$ip" ]; then
-        ip="192.168.1.0/24"
-    elif [[ ! $ip =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+    read -p "IP: " ip
+    if [[ -z "$ip" || ! $ip =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
         menu "error"
     fi
+
+    read -p "Guardar en archivo? [Y/n]: " save
+    if [[ "${save,,}" == "y" || -z "$save" ]]; then
+        read -p "Nombre del archivo [Default: result]: " file
+        if [ -z "$file" ]; then
+            nmap -vv -sV -O --script vuln $ip -oG result.gnmap
+        else
+            nmap -vv -sV -O --script vuln $ip -oG "$file".gnmap
+        fi
+        echo -e "${GREEN}"
+        read -p "[#] Leer archivo? [y/N]: " read
+        if [[ -z "$read" || "${read,,}" == "n" ]]; then
+            echo -e "[*] Puedes leerlo con 'cat "$file".gnmap'"
+            echo -e "${EC}"
+            sleep 3
+            clear
+            exit 0
+        elif [[ "${read,,}" == "y" ]]; then
+            clear
+            cat "$file".gnmap
+            exit 0
+        else
+            clear
+            exit 0
+        fi
+    fi
+
+    nmap -vv -sV -O --script vuln $ip    
 }
 
 menu() {
