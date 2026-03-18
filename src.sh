@@ -34,7 +34,11 @@ full_scan() {
     read -p "Guardar en archivo? [Y/n]: " save
     if [[ "${save,,}" == "y" || -z "$save" ]]; then
         read -p "Nombre del archivo [Default: result]: " file
-        nmap -vv -sV -O $ip -oG "$file".gnmap
+        if [ -z "$file" ]; then
+            nmap -vv -sV -O $ip -oG result.gnmap
+        else
+            nmap -vv -sV -O $ip -oG "$file".gnmap
+        fi
         echo -e "${GREEN}"
         read -p "[#] Leer archivo? [y/N]: " read
         if [[ -z "$read" || "${read,,}" == "n" ]]; then
